@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Popular Movie</string>
+    <string name="title_activity_detail">Detail Activity</string>
+    <string name="title_activity_main_screen">Popular Movie</string>
+    <string name="title_popular">Popular</string>
+    <string name="title_toprated">Top Rated</string>
+    <string name="detail_rating">Rating</string>
+    <string name="detail_release">Release</string>
+    <string name="detail_titikdua">:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
