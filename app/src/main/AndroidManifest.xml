@@ -3,6 +3,7 @@
     package="id.co.imastudio.popularmovie">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -15,7 +16,14 @@
         <activity
             android:name="id.co.imastudio.popularmovie.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainScreen"/>
+        </activity>
+
         <activity
             android:name="id.co.imastudio.popularmovie.MainScreen"
             android:label="@string/title_activity_main_screen"

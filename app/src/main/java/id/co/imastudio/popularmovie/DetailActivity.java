@@ -35,6 +35,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         String datajudulFilm = getIntent().getStringExtra("DATA_JUDUL");
         String dataposterFilm = getIntent().getStringExtra("DATA_POSTER");
         String datasinopsisFilm = getIntent().getStringExtra("DATA_SINOPSIS");

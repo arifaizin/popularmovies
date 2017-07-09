@@ -2,8 +2,13 @@ package id.co.imastudio.popularmovie;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,13 +56,40 @@ public class TopRatedFragment extends Fragment {
 
         recyclerView = (RecyclerView) fragmentView.findViewById(R.id.recyclerView);
 
-        getDataOnline();
+        if (isNetworkConnected()){
+            getDataOnline();
+        } else {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("No Internet Connection")
+                    .setMessage("It looks like your internet connection is off. Please turn it " +
+                            "on and try again")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).setIcon(android.R.drawable.ic_dialog_alert).show();
+        }
         return fragmentView;
     }
 
     private void getDataOnline() {
 
-        final ProgressDialog loading = ProgressDialog.show(getActivity(), "Loding Data", "Mohon Bersabar", false, false);
+        final ProgressDialog loading = ProgressDialog.show(getActivity(), "Loding Data", "Mohon Bersabar", false, true, new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                if (isNetworkConnected()){
+                    return;
+                } else {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("No Internet Connection")
+                            .setMessage("It looks like your internet connection is off. Please turn it " +
+                                    "on and try again")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            }).setIcon(android.R.drawable.ic_dialog_alert).show();
+                }
+            }
+        });
         String url = "https://api.themoviedb.org/3/movie/top_rated?api_key=" + ApiKey.DATA_KEY + "&language=en-US&page=1";
 
         JsonObjectRequest ambildata = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -104,4 +136,9 @@ public class TopRatedFragment extends Fragment {
 
     }
 
+    private boolean isNetworkConnected() {
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
 }
